@@ -1,6 +1,10 @@
 package util;
 import freemarker.template.*;
 import java.util.*;
+
+import client.Institution;
+import client.UserInfo;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,15 +27,23 @@ public class MessageGenerator {
     	SignOnGen();
     }
     public static void SignOnGen() throws Exception {
+    	UserInfo user1 = new UserInfo();
+		user1.setUsername("teset");
+		user1.setPassword("testpass");
+		Institution testIns = new Institution();
+		testIns.setID("3101");
+		testIns.setOrg("Amex");
+		user1.setInstitution(testIns);
+		System.out.println(user1.toMap());
     	 /* Create a data-model */
-        Map root = new HashMap();
-        //TODO
+        Map root = user1.toMap();
+        
         root.put("hash", "test_hash");
         root.put("currentDtTm", "");
-        root.put("username", "");
-        root.put("password", "testpass");
-        root.put("FI_ORG", "testorg");
-        root.put("FI_ID", "testid");
+//        root.put("username", "");
+//        root.put("password", "testpass");
+//        root.put("FI_ORG", "testorg");
+//        root.put("FI_ID", "testid");
 
         /* Get the template (uses cache internally) */
         Template temp = cfg.getTemplate("SignOn_Template.ftlh");

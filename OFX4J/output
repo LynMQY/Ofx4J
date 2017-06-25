@@ -6,18 +6,18 @@ ENCODING:USASCII
 CHARSET:1252
 COMPRESSION:NONE
 OLDFILEUID:NONE
-NEWFILEUID:${hash}
+NEWFILEUID:test_hash
 
 <OFX>
 <SIGNONMSGSRQV1>
 <SONRQ>
-<DTCLIENT>${currentDtTm}
-<USERID>${username}
-<USERPASS>${password}
+<DTCLIENT>
+<USERID>teset
+<USERPASS>testpass
 <LANGUAGE>ENG
 <FI>
-<ORG>${institution.org}
-<FID>${institution.id}
+<ORG>Amex
+<FID>3101
 </FI>
 <APPID>QWIN
 <APPVER>2500

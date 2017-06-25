@@ -16,8 +16,8 @@ NEWFILEUID:${hash}
 <USERPASS>${password}
 <LANGUAGE>ENG
 <FI>
-<ORG>${FI_ORG}
-<FID>${FI_ID}
+<ORG>${institution.org}
+<FID>${institution.id}
 </FI>
 <APPID>QWIN
 <APPVER>2500
