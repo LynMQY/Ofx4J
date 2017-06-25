@@ -9,6 +9,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class MessageGenerator {
 	public static Configuration cfg = new Configuration(Configuration.VERSION_2_3_25);
@@ -36,10 +38,10 @@ public class MessageGenerator {
 		user1.setInstitution(testIns);
 		System.out.println(user1.toMap());
     	 /* Create a data-model */
-        Map root = user1.toMap();
-        
-        root.put("hash", "test_hash");
-        root.put("currentDtTm", "");
+        Map root = user1.toMap();       
+        root.put("hash", UUID.randomUUID().toString().replaceAll("-", ""));
+        String datetime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        root.put("currentDtTm", datetime);
 //        root.put("username", "");
 //        root.put("password", "testpass");
 //        root.put("FI_ORG", "testorg");
@@ -55,8 +57,9 @@ public class MessageGenerator {
         out.close();
         // Note: Depending on what `out` is, you may need to call `out.close()`.
         // This is usually the case for file output, but not for servlet output.
-
     }
-    
+    public static void SignUpGen() throws Exception{
+    	
+    }
     
 }
