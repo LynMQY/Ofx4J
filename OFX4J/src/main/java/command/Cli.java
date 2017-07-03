@@ -33,7 +33,7 @@ public class Cli {
 		}
 		do {
 			System.out.println("Select the institution");
-			tmp = Integer.valueOf(sc.nextLine().substring(0, 5));
+			tmp = Integer.valueOf(sc.nextLine());
 			//sc.nextLine();
 			System.out.println(tmp);
 		} while(!(tmp>=0 && tmp<list.size()));
@@ -57,6 +57,8 @@ public class Cli {
 		user1.setUsername(username);
 		user1.setPassword(password);
 		user1.setInstitution(tmpIns);
+	
+		sc.close();
 	}
 
 }
