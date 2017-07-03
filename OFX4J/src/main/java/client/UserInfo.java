@@ -43,7 +43,8 @@ public class UserInfo {
 		this.description = description;
 	}
 	
-	public Map toMap() {//lowercase every letter for every properties		
+	@SuppressWarnings("unchecked")
+	public Map<Object, Object> toMap() {//lowercase every letter for every properties		
 		return new ObjectMapper().convertValue(this, Map.class);		
 	}
 	
