@@ -1,9 +1,16 @@
 package client;
 
+import org.simpleframework.xml.Element;
+
 public class Institution {
+
+	@Element(required = false)
 	private String name;
+	@Element(required = false)
 	private String ID;
+	@Element(required = false)
 	private String url;
+	@Element(required = false)
 	private String org;
 	//private String BrokerID;
 	

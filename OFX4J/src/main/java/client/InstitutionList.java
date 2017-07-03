@@ -8,6 +8,7 @@ import java.util.List;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
+//github.com/KevinSJ/Ofx4J.git
 import util.ResultInstitution;
 
 /**
@@ -35,6 +36,5 @@ public class InstitutionList {
 		this.institutionIds = institutionIds;
 	}
 
-	
 
 }
