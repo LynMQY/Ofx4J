@@ -8,19 +8,22 @@ import java.util.List;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
+import util.ResultInstitution;
+
 /**
  * @author kevin
  *
  */
-@Root(name = "insitution", strict = false)
+@Root
 public class InstitutionList {
-	@ElementList(name = "insitution", inline = true)
-	private List<Institution> institutionIds;
+
+	@ElementList(name = "insitutionlist", inline = true)
+	private List<ResultInstitution> institutionIds;
 
 	/**
 	 * @return the institutionIds
 	 */
-	public List<Institution> getInstitutionIds() {
+	public List<ResultInstitution> getInstitutionIds() {
 		return institutionIds;
 	}
 
@@ -28,7 +31,10 @@ public class InstitutionList {
 	 * @param institutionIds
 	 *            the institutionIds to set
 	 */
-	public void setInstitutionIds(List<Institution> institutionIds) {
+	public void setInstitutionIds(List<ResultInstitution> institutionIds) {
 		this.institutionIds = institutionIds;
 	}
+
+	
+
 }
