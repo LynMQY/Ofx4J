@@ -1,23 +1,31 @@
 package util;
 
-import freemarker.template.*;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okio.BufferedSink;
-
-import java.util.*;
-
-import client.Institution;
-import client.UserInfo;
-
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.UUID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import client.Institution;
+import client.UserInfo;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateExceptionHandler;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class MessageGenerator {
+	private static final Logger LOGGER = LoggerFactory.getLogger(MessageGenerator.class);
 	public static Configuration cfg = new Configuration(Configuration.VERSION_2_3_25);
 	static {
 		try {
@@ -44,7 +52,7 @@ public class MessageGenerator {
 		/* Create a data-model */
 		Map<?, ?> root = user1.toMap();
 		String UID = "testUID";
-
+	
 		// SignOnGen(root);
 		// SignUpGen(root, UID);
 	}
@@ -67,7 +75,7 @@ public class MessageGenerator {
 		// Path path = Paths.get("output");
 		// Writer out = new OutputStreamWriter(Files.newOutputStream(path));
 		temp.process(data, out);
-		System.out.println(out.toString());
+		LOGGER.info(out.toString());
 		return RequestBody.create(MediaType.parse("application/x-ofx; charset=utf-8"), out.toString());
 	}
 

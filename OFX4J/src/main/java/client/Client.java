@@ -5,6 +5,9 @@ package client;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -16,24 +19,25 @@ import okhttp3.Response;
  *
  */
 public class Client {
-	private final OkHttpClient client = new OkHttpClient();
-	private String url;
+	private static final Logger logger = LoggerFactory.getLogger(Client.class);
+	private OkHttpClient client = new OkHttpClient();
+	private HttpUrl url;
 	private RequestBody rb;
 
 	public void run() throws Exception {
-		Request request = new Request.Builder().url(HttpUrl.parse(url)).header("User-Agent", "OFX for Java")
+		Request request = new Request.Builder().url(url).header("User-Agent", "OFX for Java")
 				.header("Content-Type", "application/x-ofx").header("Accept", "application/x-ofx").post(rb).build();
-		Response response = client.newCall(request).execute();
-		if (!response.isSuccessful())
-			throw new IOException("Unexpected code" + response);
-		response.close();
-		System.out.println(response.body().toString());
+		try (Response response = client.newCall(request).execute();) {
+			if (!response.isSuccessful())
+				throw new IOException("Unexpected code" + response);
+			logger.debug(response.body().string());
+		}
 	}
 
 	/**
 	 * @return the url
 	 */
-	public String getUrl() {
+	public HttpUrl getUrl() {
 		return url;
 	}
 
@@ -41,7 +45,7 @@ public class Client {
 	 * @param url
 	 *            the url to set
 	 */
-	public void setUrl(String url) {
+	public void setUrl(HttpUrl url) {
 		this.url = url;
 	}
 
