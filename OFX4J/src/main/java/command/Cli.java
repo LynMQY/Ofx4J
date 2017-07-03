@@ -17,7 +17,7 @@ public class Cli {
 		System.out.println("nihao, please type the name of financial institution to begin");
 		String search = sc.nextLine();
 		String searchID;
-		int tmp = 0;
+		long tmp = 0;
 
 		List<ResultInstitution> list = InstitutionLookUpClient.institutionLookup(search);
 		while(list.size() == 0) {
@@ -33,12 +33,14 @@ public class Cli {
 		}
 		do {
 			System.out.println("Select the institution");
-			tmp = sc.nextInt();
-			searchID = list.get(tmp).getId();
+			tmp = Integer.valueOf(sc.nextLine().substring(0, 5));
+			//sc.nextLine();
+			System.out.println(tmp);
 		} while(!(tmp>=0 && tmp<list.size()));
+		searchID = list.get((int)tmp).getId();
 		//System.out.println(searchID);
 		//TODO SearchID
-		
+		Institution tmpIns= InstitutionLookUpClient.institutionLookupID(searchID);
 		// Institution get
 		
 		// get userinfo for signOn
@@ -48,15 +50,13 @@ public class Cli {
 		String password = sc.nextLine();
 		//TODO mask may be needed
 		
-		
+		//System.out.println("username: "+ username);
+		//System.out.println("username: "+ password);
 		
 		UserInfo user1 = new UserInfo();
 		user1.setUsername(username);
 		user1.setPassword(password);
-		Institution testIns = new Institution();
-		testIns.setID("3101");
-		testIns.setOrg("Amex");
-		user1.setInstitution(testIns);
+		user1.setInstitution(tmpIns);
 	}
 
 }
