@@ -1,6 +1,7 @@
 package util;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.simpleframework.xml.Serializer;
@@ -20,7 +21,7 @@ public class InstitutionLookUpClient {
 			.readTimeout(30, TimeUnit.SECONDS).build();
 	private static final String BASE_URL = "http://www.ofxhome.com/api.php";
 
-	public static InstitutionList institutionLookup(String query) {
+	public static List<ResultInstitution> institutionLookup(String query) {
 		HttpUrl qUrl = HttpUrl.parse(BASE_URL).newBuilder().addQueryParameter("search", query).build();
 		Request r = new Request.Builder().url(qUrl).get().build();
 		try (Response response = client.newCall(r).execute();) {
@@ -29,7 +30,7 @@ public class InstitutionLookUpClient {
 			Serializer s = new Persister();
 			InstitutionList il = s.read(InstitutionList.class, response.body().byteStream());
 			il.getInstitutionIds().forEach(in -> logger.info(in.toString()));
-			return il;
+			return il.getInstitutionIds();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
