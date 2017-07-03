@@ -18,7 +18,12 @@ public class InstitutionLookUpClientTest {
 	 */
 	@Test
 	public void testInstitutionLookup() {
-		assertTrue(InstitutionLookUpClient.institutionLookup("chase").getInstitutionIds().size()!= 0);
+		assertTrue(InstitutionLookUpClient.institutionLookup("chase").size()!= 0);
+	}
+	
+	@Test
+	public void testinstitutionLookupID(){
+		assertNotNull(InstitutionLookUpClient.institutionLookupID("444"));
 	}
 
 }

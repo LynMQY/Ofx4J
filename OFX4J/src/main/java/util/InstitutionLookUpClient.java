@@ -1,6 +1,7 @@
 package util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -36,10 +37,25 @@ public class InstitutionLookUpClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return new ArrayList<ResultInstitution>();
 	}
-	//TODO:
-	public static Institution institutionLookupID(String id){
+
+	// TODO:
+	public static Institution institutionLookupID(String id) {
+		HttpUrl qUrl = HttpUrl.parse(BASE_URL).newBuilder().addQueryParameter("lookup", id).build();
+		Request r = new Request.Builder().url(qUrl).get().build();
+		try (Response response = client.newCall(r).execute();) {
+			if (!response.isSuccessful())
+				throw new IOException("Unexpected code" + response);
+			Serializer s = new Persister();
+			Institution ins = s.read(Institution.class, response.body().byteStream());
+			logger.info(ins.toString());
+			// il.getInstitutionIds().forEach(in -> logger.info(in.toString()));
+			return ins;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

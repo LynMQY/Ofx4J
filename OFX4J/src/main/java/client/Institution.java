@@ -1,16 +1,18 @@
 package client;
 
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
+@Root(strict=false)
 public class Institution {
 
-	@Element(required = false)
+	@Element(name="name", required = false)
 	private String name;
-	@Element(required = false)
+	@Element(name="fid",required = false)
 	private String ID;
-	@Element(required = false)
+	@Element(name="url",required = false)
 	private String url;
-	@Element(required = false)
+	@Element(name="org", required = false)
 	private String org;
 	//private String BrokerID;
 	
@@ -31,6 +33,18 @@ public class Institution {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 	@Override
 	public String toString() {
