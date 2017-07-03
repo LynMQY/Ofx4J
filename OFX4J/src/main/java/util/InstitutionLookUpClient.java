@@ -9,6 +9,7 @@ import org.simpleframework.xml.core.Persister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import client.Institution;
 import client.InstitutionList;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -37,5 +38,8 @@ public class InstitutionLookUpClient {
 		}
 		return null;
 	}
-
+	//TODO:
+	public static Institution institutionLookupID(String id){
+		return null;
+	}
 }
