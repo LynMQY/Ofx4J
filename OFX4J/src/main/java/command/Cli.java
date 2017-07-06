@@ -2,7 +2,12 @@ package command;
 
 import java.io.Console;
 import java.util.*;
+
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
 import client.Institution;
+import client.PasswordDemo;
 import client.UserInfo;
 import util.InstitutionLookUpClient;
 import util.ResultInstitution;
@@ -40,25 +45,40 @@ public class Cli {
 		// Institution get
 		
 		// get userinfo for signOn
-		System.out.println("username:?");
-		String username = sc.nextLine();
-		System.out.println("password:?");
-		String password = sc.nextLine();
+//		String username = PasswordDemo.g;
+//		String password;
+
+	        //Schedule a job for the event dispatch thread:
+	        //creating and showing this application's GUI.
+	        SwingUtilities.invokeLater(new Runnable() {
+	            public void run() {
+	                //Turn off metal's use of bold fonts
+			UIManager.put("swing.boldMetal", Boolean.FALSE);
+			PasswordDemo.createAndShowGUI();
+	            }
+	        });
+
+		
+//		System.out.println("username:?");
+//		String username = sc.nextLine();
+//		System.out.println("password:?");
+//		String password = sc.nextLine();
 		//TODO mask may be needed
 		
-		Console console = System.console();
-		char[] password = console.readPassword("passwords:?");
-		System.out.println(new String(password));
+	    //Console 
+//		Console console = System.console();
+//		//char[] password = console.readPassword("passwords:?");
+//		System.out.println(new String(password));
 		
+
 		
-		//System.out.println("username: "+ username);
-		//System.out.println("username: "+ password);
+		UserInfo user1 = PasswordDemo.user;
+		System.out.println(user1);
 		
-		UserInfo user1 = new UserInfo();
-		user1.setUsername(username);
+		//user1.setUsername(username);
 		//user1.setPassword(password);
 		user1.setInstitution(tmpIns);
-	
+		System.out.println(user1);
 		sc.close();
 	}
 

@@ -47,10 +47,21 @@ public class PasswordDemo extends JPanel
 
     private JFrame controllingFrame; //needed for dialogs
     
-    private JTextField textField;
+    private JTextField nameField;
        
     private JPasswordField passwordField;
+    
+    public static UserInfo user = new UserInfo();
 
+    private Action enter = new AbstractAction("Enter") {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            controllingFrame.dispatchEvent(new WindowEvent(
+                controllingFrame, WindowEvent.WINDOW_CLOSING));
+        }
+    };
+    
     public PasswordDemo(JFrame f) {
         //Use the default FlowLayout.
         controllingFrame = f;
@@ -60,11 +71,11 @@ public class PasswordDemo extends JPanel
         passwordField.setActionCommand(OK);
         passwordField.addActionListener(this);
         
-        textField = new JTextField(10);
+        nameField = new JTextField(10);
         
 
         JLabel label0 = new JLabel("Enter your username: ");
-        label0.setLabelFor(textField);
+        label0.setLabelFor(nameField);
         
         JLabel label = new JLabel("Enter your password: ");
         label.setLabelFor(passwordField);
@@ -72,21 +83,22 @@ public class PasswordDemo extends JPanel
         JComponent buttonPane = createButtonPanel();
 
         //Lay out everything.
-        JPanel textPane = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+        JPanel textPane = new JPanel();
+        textPane.setLayout(new BoxLayout(textPane, BoxLayout.Y_AXIS));
         textPane.add(label0);
-        textPane.add(textField);
-        JPanel textPane2 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-        textPane2.add(label);
-        textPane2.add(passwordField);
+        textPane.add(nameField);
+        //JPanel textPane2 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+        textPane.add(label);
+        textPane.add(passwordField);
 
         add(textPane);
-        add(textPane2);
+        //add(textPane2);
         add(buttonPane);
     }
 
     protected JComponent createButtonPanel() {
         JPanel p = new JPanel(new GridLayout(0,1));
-        JButton okButton = new JButton("OK");
+        JButton okButton = new JButton(enter);
         JButton helpButton = new JButton("Help");
 
         okButton.setActionCommand(OK);
@@ -102,24 +114,22 @@ public class PasswordDemo extends JPanel
 
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
-
-        if (OK.equals(cmd)) { //Process the password.
-            char[] input = passwordField.getPassword();
-            if (isPasswordCorrect(input)) {
-                JOptionPane.showMessageDialog(controllingFrame,
-                    "Success! You typed the right password.");
-            } else {
-                JOptionPane.showMessageDialog(controllingFrame,
-                    "Invalid password. Try again.",
-                    "Error Message",
-                    JOptionPane.ERROR_MESSAGE);
-            }
-
+        
+        if (OK.equals(cmd)) { //Process the username and password
+        	char[] nameInput = nameField.getText().toCharArray();
+            char[] passInput = passwordField.getPassword();
+            
+            user.setUsername(new String(nameInput));
+            user.setPassword(new String(passInput));
             //Zero out the possible password, for security.
-            Arrays.fill(input, '0');
-
+            Arrays.fill(nameInput, '0');
+            Arrays.fill(passInput, '0');
+            
             passwordField.selectAll();
             resetFocus();
+            System.out.println("finish");
+            System.out.println(user);
+            
         } else { //The user has asked for help.
             JOptionPane.showMessageDialog(controllingFrame,
                 "You can get the password by searching this example's\n"
@@ -127,6 +137,33 @@ public class PasswordDemo extends JPanel
               + "Or look at the section How to Use Password Fields in\n"
               + "the components section of The Java Tutorial.");
         }
+        
+        
+        
+//        if (OK.equals(cmd)) { //Process the password.
+//            char[] input = passwordField.getPassword();
+//            if (isPasswordCorrect(input)) {
+//                JOptionPane.showMessageDialog(controllingFrame,
+//                    "Success! You typed the right password.");
+//            } else {
+//                JOptionPane.showMessageDialog(controllingFrame,
+//                    "Invalid password. Try again.",
+//                    "Error Message",
+//                    JOptionPane.ERROR_MESSAGE);
+//            }
+//
+//            //Zero out the possible password, for security.
+//            Arrays.fill(input, '0');
+//
+//            passwordField.selectAll();
+//            resetFocus();
+//        } else { //The user has asked for help.
+//            JOptionPane.showMessageDialog(controllingFrame,
+//                "You can get the password by searching this example's\n"
+//              + "source code for the string \"correctPassword\".\n"
+//              + "Or look at the section How to Use Password Fields in\n"
+//              + "the components section of The Java Tutorial.");
+//        }
     }
 
     /**
@@ -160,9 +197,9 @@ public class PasswordDemo extends JPanel
      * this method should be invoked from the
      * event dispatch thread.
      */
-    private static void createAndShowGUI() {
+    public static void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("PasswordDemo");
+        JFrame frame = new JFrame("Username & Password");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Create and set up the content pane.
@@ -182,7 +219,16 @@ public class PasswordDemo extends JPanel
         frame.pack();
         frame.setVisible(true);
     }
-
+    
+//    private static String getUsername(char[] input) {
+//    	String username = new String(input);
+//        return username;
+//    }
+//    private static String getPassword(char[] input) {
+//    	String password = new String(input);
+//        return password;
+//    }
+    
     public static void main(String[] args) {
         //Schedule a job for the event dispatch thread:
         //creating and showing this application's GUI.
@@ -193,5 +239,6 @@ public class PasswordDemo extends JPanel
 		createAndShowGUI();
             }
         });
+        //System.out.println(user);
     }
 }
