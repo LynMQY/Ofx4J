@@ -58,11 +58,6 @@ public class Cli {
 	            }
 	        });
 
-		
-//		System.out.println("username:?");
-//		String username = sc.nextLine();
-//		System.out.println("password:?");
-//		String password = sc.nextLine();
 		//TODO mask may be needed
 		
 	    //Console 

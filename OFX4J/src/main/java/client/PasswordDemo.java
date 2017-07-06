@@ -218,6 +218,8 @@ public class PasswordDemo extends JPanel
         //Display the window.
         frame.pack();
         frame.setVisible(true);
+        frame.toFront();
+        //frame.repaint();
     }
     
 //    private static String getUsername(char[] input) {
