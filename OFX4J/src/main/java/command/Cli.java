@@ -1,20 +1,19 @@
 package command;
 
-import java.io.Console;
 import java.util.*;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import client.Institution;
-import client.PasswordDemo;
-import client.UserInfo;
+import client.*;
+import okhttp3.HttpUrl;
 import util.InstitutionLookUpClient;
+import util.MessageGenerator;
 import util.ResultInstitution;
 
 public class Cli {
-
-	public static void main(String[] args) {
+	public static UserInfo user1 = new UserInfo();
+	public static void main(String[] args) throws Exception {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("nihao, please type the name of financial institution to begin");
 		String search = sc.nextLine();
@@ -42,20 +41,21 @@ public class Cli {
 		//System.out.println(searchID);
 
 		Institution tmpIns= InstitutionLookUpClient.institutionLookupID(searchID);
-		// Institution get
+		// Institution got
 		
-		// get userinfo for signOn
-//		String username = PasswordDemo.g;
-//		String password;
+		
 
 	        //Schedule a job for the event dispatch thread:
 	        //creating and showing this application's GUI.
-	        SwingUtilities.invokeLater(new Runnable() {
+	        SwingUtilities.invokeAndWait(new Runnable() {
 	            public void run() {
 	                //Turn off metal's use of bold fonts
-			UIManager.put("swing.boldMetal", Boolean.FALSE);
-			PasswordDemo.createAndShowGUI();
+	            	UIManager.put("swing.boldMetal", Boolean.FALSE);
+	        		PasswordDemo.createAndShowGUI();
+	        		
+	        		System.out.println("resss");
 	            }
+	            
 	        });
 
 		//TODO mask may be needed
@@ -67,13 +67,28 @@ public class Cli {
 		
 
 		
-		UserInfo user1 = PasswordDemo.user;
-		System.out.println(user1);
 		
-		//user1.setUsername(username);
-		//user1.setPassword(password);
-		user1.setInstitution(tmpIns);
 		System.out.println(user1);
+
+		user1.setInstitution(tmpIns);
+		synchronized (user1) {
+		    user1.wait();
+		}
+		System.out.println(user1);
+
+		
+		System.out.println("restart1234");
+		
+		//Client
+		Client client = new Client();
+		client.setUrl(HttpUrl.parse(user1.getInstitution().getUrl()));
+		client.setRb(MessageGenerator.SignOnRequestGen(user1));
+		client.run();
+		System.out.println(user1);
+		//SignOn
+		
+		
+		
 		sc.close();
 	}
 

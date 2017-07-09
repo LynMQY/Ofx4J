@@ -34,6 +34,9 @@ package client;
 
 
 import javax.swing.*;
+
+import command.Cli;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Arrays;
@@ -50,8 +53,6 @@ public class PasswordDemo extends JPanel
     private JTextField nameField;
        
     private JPasswordField passwordField;
-    
-    public static UserInfo user = new UserInfo();
 
     private Action enter = new AbstractAction("Enter") {
 
@@ -119,8 +120,8 @@ public class PasswordDemo extends JPanel
         	char[] nameInput = nameField.getText().toCharArray();
             char[] passInput = passwordField.getPassword();
             
-            user.setUsername(new String(nameInput));
-            user.setPassword(new String(passInput));
+            Cli.user1.setUsername(new String(nameInput));
+            Cli.user1.setPassword(new String(passInput));
             //Zero out the possible password, for security.
             Arrays.fill(nameInput, '0');
             Arrays.fill(passInput, '0');
@@ -128,7 +129,6 @@ public class PasswordDemo extends JPanel
             passwordField.selectAll();
             resetFocus();
             System.out.println("finish");
-            System.out.println(user);
             
         } else { //The user has asked for help.
             JOptionPane.showMessageDialog(controllingFrame,
@@ -138,7 +138,9 @@ public class PasswordDemo extends JPanel
               + "the components section of The Java Tutorial.");
         }
         
-        
+        synchronized (Cli.user1) {
+		    Cli.user1.notify();
+		}
         
 //        if (OK.equals(cmd)) { //Process the password.
 //            char[] input = passwordField.getPassword();
