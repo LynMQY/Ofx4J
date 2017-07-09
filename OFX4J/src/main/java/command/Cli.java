@@ -75,7 +75,6 @@ public class Cli {
 		client.setRb(MessageGenerator.SignOnRequestGen(user1));
 		client.run();
 		//System.out.println(user1);
-		// SignOn
 
 		sc.close();
 	}
