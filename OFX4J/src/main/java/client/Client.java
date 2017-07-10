@@ -23,6 +23,8 @@ public class Client {
 	private OkHttpClient client = new OkHttpClient();
 	private HttpUrl url;
 	private RequestBody rb;
+	
+	public String SignOnResponse = null;
 
 	public void run() throws Exception {
 		Request request = new Request.Builder().url(url).header("User-Agent", "OFX for Java")
@@ -30,7 +32,9 @@ public class Client {
 		try (Response response = client.newCall(request).execute();) {
 			if (!response.isSuccessful())
 				throw new IOException("Unexpected code" + response);
-			logger.debug(response.body().string());
+			SignOnResponse = response.body().string();
+			logger.debug(SignOnResponse);
+			
 		}
 	}
 

@@ -9,12 +9,16 @@ import client.*;
 import okhttp3.HttpUrl;
 import util.InstitutionLookUpClient;
 import util.MessageGenerator;
+import util.MessageParser;
 import util.PasswordWindow;
 import util.ResultInstitution;
 
 public class Cli {
 	public static UserInfo user1 = new UserInfo();
-
+	
+	public static boolean signOnFlag = false;
+	
+	private static Client client = new Client();
 	public static void main(String[] args) throws Exception {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("nihao, please type the name of financial institution to begin");
@@ -47,35 +51,47 @@ public class Cli {
 
 		// Schedule a job for the event dispatch thread:
 		// creating and showing this application's GUI.
-		SwingUtilities.invokeAndWait(new Runnable() {
-			public void run() {
-				// Turn off metal's use of bold fonts
-				UIManager.put("swing.boldMetal", Boolean.FALSE);
-				PasswordWindow.createAndShowGUI();
+
+		do {
+			SwingUtilities.invokeAndWait(new Runnable() {
+				public void run() {
+					// Turn off metal's use of bold fonts
+					UIManager.put("swing.boldMetal", Boolean.FALSE);
+					PasswordWindow.createAndShowGUI();
+				}
+			});
+
+			// TODO mask may be needed
+
+			// Console
+			// Console console = System.console();
+			// //char[] password = console.readPassword("passwords:?");
+			// System.out.println(new String(password));
+
+			user1.setInstitution(tmpIns);
+			synchronized (user1) {
+				user1.wait();
 			}
-		});
-
-		// TODO mask may be needed
-
-		// Console
-		// Console console = System.console();
-		// //char[] password = console.readPassword("passwords:?");
-		// System.out.println(new String(password));
-
-		user1.setInstitution(tmpIns);
-		synchronized (user1) {
-			user1.wait();
-		}
-//		System.out.println(user1);
+//			System.out.println(user1);
 
 
-		// Client
-		Client client = new Client();
-		client.setUrl(HttpUrl.parse(user1.getInstitution().getUrl()));
-		client.setRb(MessageGenerator.SignOnRequestGen(user1));
-		client.run();
-		//System.out.println(user1);
-
+			// Client
+			
+			client.setUrl(HttpUrl.parse(user1.getInstitution().getUrl()));
+			client.setRb(MessageGenerator.SignOnRequestGen(user1));
+			client.run();
+			//System.out.println(user1);
+			
+			signOnFlag = MessageParser.SignOnResponse(client.SignOnResponse);
+			
+			System.out.println(MessageParser.signOnMessage);
+			
+			if(!signOnFlag) System.out.println("plz re-enter your user info");
+		} while (!signOnFlag);
+		
+		//System.out.println(client.SignOnResponse);
+		
+		
 		sc.close();
 	}
 

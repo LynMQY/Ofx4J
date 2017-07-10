@@ -1,6 +1,8 @@
 package util;
 
 public class MessageParser {
+	public static String signOnMessage = null;
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String response1 = "<OFX><SIGNONMSGSRSV1><SONRS><STATUS><CODE>0<SEVERITY>ERROR<MESSAGE>Please verify your identity within the next 7 days. Using your desktop computer, go to your bank?s website and visit the Secure Message Center for instructions.</STATUS><DTSERVER>20170709164307.211[-4:EDT]<LANGUAGE>ENG<FI><ORG>B1<FID>10898</FI></SONRS></SIGNONMSGSRSV1></OFX>";
@@ -15,8 +17,11 @@ public class MessageParser {
 		
 		int res = Integer.valueOf(response.substring(idx0+14, idx1));
 		System.out.println(res);
+		
+		signOnMessage = response.substring(response.indexOf("<MESSAGE>")+9, response.indexOf("</STATUS>"));
 		if (res == 0) return true;		
 		return false;
 	}
 	
 }
+
