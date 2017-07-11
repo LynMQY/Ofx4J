@@ -24,7 +24,7 @@ public class Client {
 	private HttpUrl url;
 	private RequestBody rb;
 	
-	public String SignOnResponse = null;
+	public String SignOnResponse = null;//change to Response for general purpose
 
 	public void run() throws Exception {
 		Request request = new Request.Builder().url(url).header("User-Agent", "OFX for Java")

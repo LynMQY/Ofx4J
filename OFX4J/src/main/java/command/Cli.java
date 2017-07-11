@@ -82,9 +82,9 @@ public class Cli {
 			client.run();
 			//System.out.println(user1);
 			
-			signOnFlag = MessageParser.SignOnResponse(client.SignOnResponse);
-			
-			System.out.println(MessageParser.signOnMessage);
+			signOnFlag = (Integer.valueOf(MessageParser.SignOnResponse(client.SignOnResponse)[0])==0);
+			//print message from financial institution
+			System.out.println(MessageParser.SignOnResponse(client.SignOnResponse)[1]);
 			
 			if(!signOnFlag) System.out.println("plz re-enter your user info");
 		} while (!signOnFlag);
